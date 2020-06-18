@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"/><title>kark</title></head><body><div id="root"></div><script></script><script type="text/babel">$(document).ready(function(){
+        $('#local-game-start-btn').click(function(){
+            var usersNumber = parseInt($('#local-game-users-number').val());
+            var tilesSetNumber = parseInt($('#local-game-tiles-set').val());
+    
+            var flagsStartNumber = 8;
+            var defaultUsers = [{name: "Frodo Baggins", color: "#FF333C", hexColor: 0xFF333C, availableFlags: flagsStartNumber, score: 0},
+                {name: "Gandalf the Grey", color: "#3933FF", hexColor: 0x3933FF, availableFlags: flagsStartNumber, score: 0},
+                {name: "Aragorn", color: "#010106", hexColor: 0x010106, availableFlags: flagsStartNumber, score: 0},
+                {name: "Sauron", color: "#F47C41", hexColor: 0xF47C41, availableFlags: flagsStartNumber, score: 0}
+            ];
+
+            for (var i = 0, imax = usersNumber; i < imax; i++){
+                players.add(defaultUsers[i]);
+            }
+            
+            var game = new KarkGame(players, objectsStore, new GameDragger(), tilesMetadata, tileQueueService(tilesMetadata, tilesSetNumber), Phaser, "tiles");
+            ReactDOM.render(<PlayersList />, document.getElementById("players") );
+            
+            $('#mode-selector').remove();
+            $("#game-info").removeClass("hidden");
+        });
+    
+        $(document).on("game.over", function(e, data) {
+            $("#game-over-dialog").modal().find(".modal-body").text("WINNERS: " + data.winners.map(function(w){return w.name;}).join(", ") + "!");
+        });
+    });</script><script src="https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.8.7/phaser.min.js"></script><script src="main.js"></script></body></html>
